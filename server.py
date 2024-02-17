@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
 from flask import session as cookies
 from dotenv import load_dotenv
-from os import getenv
+from os import getenv, mkdir, path, makedirs
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from jwt import encode
+import re
+
 
 from database import *
 from functions import *
@@ -37,7 +39,7 @@ def login():
             token = encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
             return jsonify({'token': token})
         else:
-            return jsonify({'error': 'Credenciales incorrectas'}), 401
+            return jsonify({'error': 'Incorrect credentials'}), 401
     except Exception as e:
         print(e)
         return jsonify({'error': f'{e}', 'data' : data})
@@ -71,6 +73,109 @@ def verify():
     return jsonify({
         'reponse' : 'Acceso concedido'
     })
+
+@app.route('/getProducts')
+def obtenerCatalogo():
+    products = session.query(Products).filter(Products.Available == True, Products.Display == True).all()
+
+    listProducts = []
+
+    for product in products:
+        sources = [source.Url for source in product.Sources]
+
+
+        listProducts.append(
+            {
+                'name' : product.Name,
+                'id' : product.Description,
+                'stock' : product.Stock,
+                'quantity' : product.Quantity,
+                'size' : product.Size,
+                'weight' : product.Weight,
+                'color' : product.Color,
+                'cover' : product.Cover,
+                'price' : product.Price,
+                'id' : product.Id,
+                'source' : sources
+            }
+        )
+
+    if len(products) > 0:
+        response = jsonify(products = listProducts, productsReturn = 'ready')
+    else:
+        response = jsonify(productsReturn = 'empty')
+
+    return response, 200
+
+@app.route('/createProduct', methods = ['POST'])
+def createProduct():
+    if request.method != 'POST':
+        return jsonify(access = 'denied')
+    try:
+        data = request.json()
+    except:
+        try:
+            data = request.form
+        except:
+            return jsonify(process = 'Error: no se han enviado datos en el formulario')
+        
+    
+    try:
+        price = data['price']
+        name = data['name']
+        size = data['size']
+        weight = data['weight']
+        description = data['description']
+        stock = data['stock']
+        quantity = data['quantity']
+        color = data['color']
+        cover = data['cover']
+
+        newProduct = Products(name, description, stock, quantity, size, weight, color, cover, price)
+
+        session.add(newProduct)
+        session.commit()
+
+        nameFolder = name.replace(' ', '')
+
+        nameFolder = re.sub(r'[^\w\s]','', name).lower()
+
+        folder = f'media/products/{nameFolder}'
+
+        if path.exists('/media/products'):
+            makedirs(folder)
+        else:
+            makedirs('media')
+            makedirs('media/products')
+            makedirs(folder)
+        
+        
+        details = []
+
+        if 'profile' in request.files:
+
+            files = request.files
+            keys = files.keys()
+
+            for key in keys:
+                archive = files[key]
+                if archive.content_type in ['image/png', 'image/jpg', 'image/jpeg', 'image/webp']:
+                    url = f'{folder}/{archive.filename.lower().replace(' ', '')}'
+                    archive.save(url)
+                    newSource = ProductMedia(newProduct.Id, url, archive.content_type)
+                    
+                    try:
+                        session.add(newSource)
+                        session.commit()
+                    except Exception as e:
+                        session.rollback()
+                        details.append(f'{e}')
+                
+        return jsonify(register = 'success', details = details), 200
+    except Exception as e:
+        session.rollback()
+        return jsonify(error = f'{e}', register = 'failed')
+
 
 Base.metadata.create_all(engine)
 

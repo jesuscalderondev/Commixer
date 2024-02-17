@@ -3,6 +3,7 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from sqlalchemy import create_engine
 from uuid import uuid4
+from datetime import datetime
 
 database = f'sqlite:///database.db'
 engine = create_engine(database)
@@ -21,19 +22,6 @@ class Users(Base):
     Birthdate = Column(TIMESTAMP)
     Active = Column(Boolean, nullable=False, default=0)
     Token = Column(VARCHAR(500))
-
-
-class Categories(Base):
-
-    __tablename__ = 'Categories'
-
-    Id = Column(Uuid, nullable=False, primary_key=True)
-    Name = Column(VARCHAR(500), unique=True, nullable=False)
-    Description = Column(Text, nullable=False)
-    CreateAt = Column(TIMESTAMP, nullable=False)
-    UpdateAt = Column(TIMESTAMP)
-
-    Products = relationship('Products', backref='Category', cascade='delete, delete-orphan')
 
 class Products(Base):
 
@@ -56,10 +44,25 @@ class Products(Base):
     CreateAt = Column(TIMESTAMP, nullable=False)
     UpdateAt = Column(TIMESTAMP)
 
-    CategoryId = Column(Uuid, ForeignKey('Categories.Id'), nullable=False)
     PrecingHistory = relationship('PrecingHistory', backref='Product', cascade='delete, delete-orphan')
     Discount = relationship('Discount', uselist=False, cascade='delete, delete-orphan')
-    Sources = relationship('ProductMedia', backref='Product', cascade='delete, delete-orphan')
+    Sources = relationship('ProductMedia', backref='Products', cascade='delete, delete-orphan')
+
+    def __init__(self, name, description, stock, quantity, size, weight, color, cover, price):
+        self.Name = name
+        self.Description = description
+        self.Stock = stock
+        self.Quantity = quantity
+        self.Size = size
+        self.Weight = weight
+        self.Color = color
+        self.Cover = cover
+        self.Price = price
+        self.CreateAt = datetime.now()
+        self.Display = True
+        self.Available = True
+        self.Status = 'Disponible'
+
 
 class Discount(Base):
 
@@ -97,3 +100,14 @@ class ProductMedia(Base):
     Type = Column(VARCHAR(225), nullable=False)
     CreateAt = Column(TIMESTAMP, nullable=False)
     UpdateAt = Column(TIMESTAMP)
+
+
+    def __init__(self, productId, url, type):
+        self.ProductId = productId
+        self.Url = url
+        self.Type = type
+        self.CreateAt = datetime.now()
+    
+
+    def __str__(self):
+        return self.Url
