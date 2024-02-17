@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from flask import session as cookies
-from flask_mail import Message, Mail
 from dotenv import load_dotenv
 from os import getenv
 from flask_cors import CORS
@@ -10,17 +9,16 @@ from jwt import encode
 from database import *
 from functions import *
 
+load_dotenv()
+
 app = Flask(__name__)
 app.secret_key = getenv('secret_key')
 
-mail = Mail()
 CORS(app, origins=['*'], supports_credentials=True)
-
 
 
 @app.route('/login', methods = ['POST'])
 def login():
-    print(request.method)
     try:
         try:
             data = request.get_json()
@@ -42,31 +40,40 @@ def login():
             return jsonify({'error': 'Credenciales incorrectas'}), 401
     except Exception as e:
         print(e)
-        return 'Joaaa'
+        return jsonify({'error': f'{e}', 'data' : data})
     
 @app.route('/')
 def init():
-    user1 = Users(
-        FullName = 'Jesús Calderón Vargas',
-        Direction = 'Calle 9 Carrera 35 #95',
-        Email = 'jesusmcalderonv2002@gmail.com',
-        Password = passwordHash('hola'),
-        Birthdate = datetime.utcnow(),
-        Active = True
-    )
+    print(getenv('FULLNAME_TEST'), getenv('DIRECTION_TEST'), getenv('EMAIL_TEST'))
+    try:
+        user1 = Users(
+            FullName = getenv('FULLNAME_TEST'),
+            Direction = getenv('DIRECTION_TEST'),
+            Email = getenv('EMAIL_TEST'),
+            Password = passwordHash(getenv('PASS_TEST')),
+            Birthdate = datetime.utcnow(),
+            Active = True
+        )
 
-    session.add(user1)
-    session.commit()
+        session.add(user1)
+        session.commit()
 
-    return jsonify(response = 'Usuario cerado de manera exitosa')
+        return jsonify(response = 'Usuario cerado de manera exitosa')
+    except Exception as e:
+        session.rollback()
+        print(e)
+        return jsonify(response = 'El usuario ya está disponible', error = f'{e}')
 
 
 @app.route('/verify')
 @jwt_required
 def verify():
-    return 'Hola'
+    return jsonify({
+        'reponse' : 'Acceso concedido'
+    })
+
+Base.metadata.create_all(engine)
+
 
 if __name__ == '__main__':
-    Base.metadata.create_all(engine)
-    mail.init_app(app)
     app.run(debug=True)
