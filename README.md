@@ -1,22 +1,22 @@
-#DOCUMENTATION
+# DOCUMENTATION
 
-##Description
+## Description
 This server was created to manage the virtual food store, mainly
 
-##Get started
+## Get started
 1. Set your environment variables
     * Port
     * Secret Key
 
 2. Define your host, with this you can communicate more easily with your server
 
-##ENDPOINTS
+## ENDPOINTS
 |Url|Method|Params|Headers|Response|
 |---|---|---|---|---|
 |/login|POST|username[text], password[text]||Authorization token|
 |/getProducts|GET|||json whit products|
 |/createProduct|POST|price[double, float, int], name[text], size[text], weight[double, float, int], description[text], stock[int], quantity[int], color[text], cover[text]||Json with message|
-###/login response
+### /login response
 
 Correct
 
@@ -44,7 +44,7 @@ Incorrect
 }
 ```
 
-###/getProducts response
+### /getProducts response
 
 Example not empty
 ```json
@@ -78,7 +78,7 @@ Example empty
 }
 ```
 
-###/createProduct
+### /createProduct
 Correct register
 
 ```json
@@ -90,7 +90,7 @@ Correct register
 
 Incorrect
 
-````json
+```json
 {
     "error": "400 Bad Request: The browser (or proxy) sent a request that this server could not understand.",
     "register": "failed"
