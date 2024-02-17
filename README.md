@@ -11,13 +11,13 @@ This server was created to manage the virtual food store, mainly
 
 2.1 Activate environment
     * Linux
-    ```bash
-    source env/lib/activate
-    ```
+```bash
+source env/lib/activate
+```
     * Windows
-    ```cmd
-            env/Scripts/activate
-    ```
+```cmd
+env/Scripts/activate
+```
 
 2.2 Install packages whit pip
 ```bash
@@ -39,7 +39,7 @@ python server.py
 |Url|Method|Params|Headers|Response|
 |---|---|---|---|---|
 |/login|POST|username[text], password[text]||Authorization token|
-|/getProducts|GET|||json whit products|
+|/getProducts|GET|||Json whit products|
 |/createProduct|POST|price[double, float, int], name[text], size[text], weight[double, float, int], description[text], stock[int], quantity[int], color[text], cover[text]||Json with message|
 ### /login response
 
