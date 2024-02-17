@@ -14,7 +14,9 @@ This server was created to manage the virtual food store, mainly
 ```bash
 source env/lib/activate
 ```
+
     * Windows
+
 ```cmd
 env/Scripts/activate
 ```
