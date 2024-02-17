@@ -7,8 +7,33 @@ This server was created to manage the virtual food store, mainly
 1. Set your environment variables
     * Port
     * Secret Key
+2. Install packages
 
-2. Define your host, with this you can communicate more easily with your server
+2.1 Activate environment
+    * Linux
+    ```bash
+    source env/lib/activate
+    ```
+    * Windows
+    ```cmd
+            env/Scripts/activate
+    ```
+
+2.2 Install packages whit pip
+```bash
+pip install -r requirements.txt
+```
+
+3. Run server
+
+```bash
+python server.py
+```
+
+4. Define your host, with this you can communicate more easily with your server
+
+5. Deploy
+
 
 ## ENDPOINTS
 |Url|Method|Params|Headers|Response|
@@ -28,7 +53,7 @@ Correct
 ```
 Incorrect
 
-*If your credentials denied
+* If your credentials denied
 
 ```json
 {
@@ -36,11 +61,11 @@ Incorrect
 }
 ```
 
-*Any fault
+* Any fault
 
 ```json
 {
-    "error" : "enerated error"
+    "error" : "generated error"
 }
 ```
 
