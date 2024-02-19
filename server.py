@@ -160,7 +160,8 @@ def createProduct():
             for key in keys:
                 archive = files[key]
                 if archive.content_type in ['image/png', 'image/jpg', 'image/jpeg', 'image/webp']:
-                    url = f'{folder}/{archive.filename.lower().replace(' ', '')}'
+                    archiveName = archive.filename.lower().replace(' ', '')
+                    url = f'{folder}/{archiveName}'
                     archive.save(url)
                     newSource = ProductMedia(newProduct.Id, url, archive.content_type)
                     
