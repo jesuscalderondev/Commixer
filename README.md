@@ -12,15 +12,15 @@ This server was created to manage the virtual food store, mainly
 2.1 Activate environment
     * Linux
 
-```bash
-source env/lib/activate
-```
+    ```bash
+    source env/lib/activate
+    ```
 
     * Windows
 
-```bash
-env/Scripts/activate
-```
+    ```bash
+    env/Scripts/activate
+    ```
 
 2.2 Install packages whit pip
 ```bash
