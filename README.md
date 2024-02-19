@@ -11,13 +11,14 @@ This server was created to manage the virtual food store, mainly
 
 2.1 Activate environment
     * Linux
+
 ```bash
 source env/lib/activate
 ```
 
     * Windows
 
-```cmd
+```bash
 env/Scripts/activate
 ```
 
