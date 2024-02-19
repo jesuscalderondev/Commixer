@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
 from flask import session as cookies
 from dotenv import load_dotenv
-from os import mkdir, path, makedirs
+from os import getenv, mkdir, path, makedirs
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from jwt import encode
 import re
-import os
+
 
 from database import *
 from functions import *
@@ -14,7 +14,7 @@ from functions import *
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ['SECRET_KEY']
+app.secret_key = getenv('secret_key')
 
 CORS(app, origins=['*'], supports_credentials=True)
 
@@ -46,13 +46,13 @@ def login():
     
 @app.route('/')
 def init():
-    print(os.environ['FULLNAME_TEST'], os.environ['DIRECTION_TEST'], os.environ['EMAIL_TEST'])
+    print(getenv('FULLNAME_TEST'), getenv('DIRECTION_TEST'), getenv('EMAIL_TEST'))
     try:
         user1 = Users(
-            FullName = os.environ['FULLNAME_TEST'],
-            Direction = os.environ['DIRECTION_TEST'],
-            Email = os.environ['EMAIL_TEST'],
-            Password = passwordHash(os.environ['PASS_TEST']),
+            FullName = getenv('FULLNAME_TEST'),
+            Direction = getenv('DIRECTION_TEST'),
+            Email = getenv('EMAIL_TEST'),
+            Password = passwordHash(getenv('PASS_TEST')),
             Birthdate = datetime.utcnow(),
             Active = True
         )
