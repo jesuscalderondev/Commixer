@@ -11,8 +11,6 @@ import re
 from database import *
 from functions import *
 
-load_dotenv()
-
 app = Flask(__name__)
 app.secret_key = getenv('secret_key')
 
@@ -178,8 +176,8 @@ def createProduct():
         return jsonify(error = f'{e}', register = 'failed')
 
 
-Base.metadata.create_all(engine)
-
 
 if __name__ == '__main__':
+    load_dotenv()
+    Base.metadata.create_all(engine)
     app.run(debug=True)
