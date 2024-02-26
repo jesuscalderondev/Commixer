@@ -6,7 +6,7 @@ from flask_cors import CORS
 from datetime import datetime, timedelta
 from jwt import encode
 import re
-
+from decimal import Decimal
 
 from database import *
 from functions import *
@@ -82,7 +82,13 @@ def obtenerCatalogo():
 
     for product in products:
         sources = [source.Url for source in product.Sources]
+        measures = []
 
+        for measure in product.Measures:
+            measures.append({
+                'name' : measure.Name,
+                'price' : measure.Price
+            })
 
         listProducts.append(
             {
@@ -94,7 +100,7 @@ def obtenerCatalogo():
                 'weight' : product.Weight,
                 'color' : product.Color,
                 'cover' : product.Cover,
-                'price' : product.Price,
+                'measures' : measures,
                 'id' : product.Id,
                 'source' : sources
             }
@@ -121,7 +127,6 @@ def createProduct():
         
     
     try:
-        price = data['price']
         name = data['name']
         size = data['size']
         weight = data['weight']
@@ -129,11 +134,28 @@ def createProduct():
         stock = data['stock']
         quantity = data['quantity']
         color = data['color']
-        cover = data['cover']
+        measures = data['measures']
 
-        newProduct = Products(name, description, stock, quantity, size, weight, color, cover, price)
-
+        newProduct = Products(name, description, stock, quantity, size, weight, color)
         session.add(newProduct)
+        session.commit()
+
+        measuresList = measures.split(", ")
+        print(measuresList)
+
+        for measure in measuresList:
+            params = measure.split(":")
+            try:
+                price = params[1]
+                price = Decimal(price)
+                name = params[0]
+
+                newMeasure = Measure(newProduct.Id, name, price)
+                session.add(newMeasure)
+            except Exception as e:
+                return jsonify(error = f'{e}', register = 'failed')
+
+        
         session.commit()
 
         nameFolder = name.replace(' ', '')

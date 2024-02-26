@@ -36,7 +36,6 @@ class Products(Base):
     Weight = Column(Double)
     Color = Column(VARCHAR(500))
     Cover = Column(Text)
-    Price = Column(Double, nullable=False)
     Status = Column(VARCHAR(500), nullable=False)
     Available = Column(Boolean, nullable=False)
     Display = Column(Boolean, nullable=False)
@@ -44,11 +43,11 @@ class Products(Base):
     CreateAt = Column(TIMESTAMP, nullable=False)
     UpdateAt = Column(TIMESTAMP)
 
-    PrecingHistory = relationship('PrecingHistory', backref='Product', cascade='delete, delete-orphan')
     Discount = relationship('Discount', uselist=False, cascade='delete, delete-orphan')
     Sources = relationship('ProductMedia', backref='Products', cascade='delete, delete-orphan')
+    Measures = relationship('Measure', backref='Products', cascade='delete, delete-orphan')
 
-    def __init__(self, name, description, stock, quantity, size, weight, color, cover, price):
+    def __init__(self, name, description, stock, quantity, size, weight, color):
         self.Name = name
         self.Description = description
         self.Stock = stock
@@ -56,13 +55,24 @@ class Products(Base):
         self.Size = size
         self.Weight = weight
         self.Color = color
-        self.Cover = cover
-        self.Price = price
         self.CreateAt = datetime.now()
         self.Display = True
         self.Available = True
         self.Status = 'Disponible'
 
+class Measure(Base):
+
+    __tablename__ = 'Measures'
+
+    Id = Column(Uuid, primary_key=True, nullable=False, default=uuid4)
+    ProductId = Column(Uuid, ForeignKey('Products.Id'), nullable=False)
+    Name = Column(VARCHAR(225), nullable=False)
+    Price = Column(Double, nullable=False)
+
+    def __init__(self, productId, name, price):
+        self.ProductId = productId
+        self.Name = name
+        self.Price = price
 
 class Discount(Base):
 
@@ -77,17 +87,6 @@ class Discount(Base):
     CreateAt = Column(TIMESTAMP, nullable=False)
     UpdateAt = Column(TIMESTAMP)
 
-class PrecingHistory(Base):
-
-    __tablename__ = 'PrecingHistory'
-
-    Id = Column(Uuid, primary_key=True, nullable=False, default=uuid4)
-    ProductId = Column(Uuid, ForeignKey('Products.Id'))
-    Price = Column(Double, nullable=False)
-    ActiveFrom = Column(TIMESTAMP, nullable=False)
-    ActiveTo = Column(TIMESTAMP)
-    CreateAt = Column(TIMESTAMP, nullable=False)
-    UpdateAt = Column(TIMESTAMP)
 
 
 class ProductMedia(Base):
