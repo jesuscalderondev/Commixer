@@ -11,6 +11,8 @@ from decimal import Decimal
 from database import *
 from functions import *
 
+#a ver
+
 load_dotenv()
 
 app = Flask(__name__)
