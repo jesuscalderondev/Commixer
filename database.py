@@ -11,10 +11,10 @@ Session = sessionmaker(bind=engine)
 session = Session()
 Base = declarative_base()
 
-class Users(Base):
+class User(Base):
     __tablename__ = 'Users'
 
-    Id = Column(Uuid, primary_key=True, nullable=False, default=uuid4)
+    Id = Column(Uuid, primary_key=True, nullable=False)
     FullName = Column(VARCHAR(500), nullable=False)
     Direction = Column(VARCHAR(500), nullable=False)
     Email = Column(VARCHAR(225), nullable=False, unique=True)
@@ -22,6 +22,17 @@ class Users(Base):
     Birthdate = Column(TIMESTAMP)
     Active = Column(Boolean, nullable=False, default=0)
     Token = Column(VARCHAR(500))
+    Level = Column(Integer, nullable=False)
+
+    def __init__(self, fullanme, direction, email, password, birthdate, level):
+        self.Id = uuid4()
+        self.FullName = fullanme
+        self.Direction = direction
+        self.Email = email
+        self.Password = password
+        self.Birthdate = birthdate
+        self.Level = level
+        self.Active = False
 
 class Products(Base):
 

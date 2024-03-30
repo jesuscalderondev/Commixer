@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.esm.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/functions.js')}}"></script>
+    <script src="{{url_for('static', filename='icons/js/all.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/custom.css')}}">
+    <title>{% block title %}{%endblock%}</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar fixed-top">
+            <div class="container-fluid d-flex">
+                <div class="container d-flex inputSearch">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-avatar dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fa-regular fa-user"></i>
+                        </button>
+
+                        <ul class="dropdown-menu shadow-lg">
+                            <li><a class="dropdown-item border-bottom" href="#">Cerrar sesión</a></li>
+                            <li><a class="dropdown-item" href="#">Cambiar contraseña</a></li>
+                        </ul>
+                    </div>
+                    <input type="text" id="search" class="form-control form-control-sm"
+                        placeholder="¿Buscas un producto?">
+                    <button type="button" class="btn" id="searchB"><i class="fa fa-solid fa-search"></i></button>
+                </div>
+
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <i class="fa fa-solid fa-hamburger"></i>
+                </button>
+
+                <div class="offcanvas offcanvas-end bg-body-tertiary" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Tu mercado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/admin/dashboard"><i
+                                        class="fa fa-solid fa-house-user"></i> Inicio</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                    Productos
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <form class="d-flex mt-3" role="search">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {%block main%}{%endblock%}
+    </main>
+
+    <footer>
+    </footer>
+</body>
+{%block import%}
+
+{%endblock%}
+
+</html>

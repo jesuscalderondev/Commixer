@@ -11,12 +11,11 @@ from decimal import Decimal
 from database import *
 from functions import *
 
-#a ver
 
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = getenv('secret_key')
+app.config["SECRET_KEY"] = getenv('SECRET_KEY')
 
 CORS(app, origins=['*'], supports_credentials=True)
 
@@ -32,16 +31,15 @@ def login():
         email = data['email']
         password = data['password']
 
-        user = session.query(Users).filter(Users.Email == email).first()
-        if passwordVerify(user.Password, password):
-            payload = {
-                'username': user.Email,
-                'exp': datetime.utcnow() + timedelta(minutes=60)
-            }
-            token = encode(payload, app.config['SECRET_KEY'], algorithm='HS256')
-            return jsonify({'token': token})
+        user = session.query(User).filter(User.Email == email).first()
+
+        if user != None and passwordVerify(user.Password, password):
+            token = creatreJWT(user.Email)
+            cookies.setdefault("token", token)
+            condition = user.Level == 0
+            return jsonify(token = token, level = "admin" if condition else "user")
         else:
-            return jsonify({'error': 'Incorrect credentials'}), 401
+            return jsonify(error = 'Incorrect credentials', message = 'El correo o contraseña son incorrectos, verifique e intente nuevamente.'), 401
     except Exception as e:
         print(e)
         return jsonify({'error': f'{e}', 'data' : data})
@@ -50,13 +48,13 @@ def login():
 def init():
     print(getenv('FULLNAME_TEST'), getenv('DIRECTION_TEST'), getenv('EMAIL_TEST'))
     try:
-        user1 = Users(
-            FullName = getenv('FULLNAME_TEST'),
-            Direction = getenv('DIRECTION_TEST'),
-            Email = getenv('EMAIL_TEST'),
-            Password = passwordHash(getenv('PASS_TEST')),
-            Birthdate = datetime.utcnow(),
-            Active = True
+        user1 = User(
+            "Admin",
+            "Direction",
+            "admin@admin.com",
+            passwordHash("1234"),
+            datetime.now(),
+            0
         )
 
         session.add(user1)
@@ -201,6 +199,9 @@ def createProduct():
         session.rollback()
         return jsonify(error = f'{e}', register = 'failed')
 
+from admin.admin import admin
+
+app.register_blueprint(admin)
 
 Base.metadata.create_all(engine)
 

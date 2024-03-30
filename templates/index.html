@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/custom.css')}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión</title>
+</head>
+
+<body class="bg-body-tertiary">
+    <header>
+        <nav class="navbar bg-dark rounded shadow-lg fixed">
+            <div class="container-fluid">
+                <form class="d-flex" action="" id="form">
+                    <input class="form-control me-2" type="email" name="email" placeholder="Correo" aria-label="Correo"
+                        required>
+                    <input class="form-control me-2" type="password" name="password" placeholder="Contraseña" required>
+                    <button class="btn btn-outline-success" type="button" id="login">Ingresar</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+    <main class="d-flex bg-light">
+    </main>
+
+    <footer>
+
+    </footer>
+</body>
+
+
+<script src="{{url_for('static', filename='js/functions.js')}}"></script>
+<script src="{{url_for('static', filename='js/login.js')}}"></script>
+<script>
+
+    var loginButton = document.getElementById("login");
+
+    loginButton.addEventListener('click', function () {
+        let form = document.querySelector("#form");
+        let json = filter(form);
+
+        requestPost('/login', {}, json, login);
+    })
+
+
+</script>
+<script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+<script src="{{url_for('static', filename='js/bootstrap.js')}}"></script>
+
+</html>

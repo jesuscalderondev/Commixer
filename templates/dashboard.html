@@ -1,0 +1,260 @@
+{% extends 'template.html' %}
+
+{% block title %}Dashboard{%endblock%}
+
+{%block main%}
+
+<div class="cards">
+    <div class="rounded shadow-lg container-sm">
+        <div class="top">
+            <div class="circle">
+                <b>
+                    En linea
+                </b>
+            </div>
+        </div>
+        <div class="data">
+            <i class="fa-solid fa-users"></i>
+            
+
+            <div class="info">
+                <b> - 538</b>
+            </div>
+        </div>
+    </div>
+    <div class="rounded shadow-lg container-sm">
+        <div class="top">
+            <div class="circle">
+                <b>
+                    Ingresos
+                </b>
+            </div>
+        </div>
+        <div class="data">
+            <i class="fa-solid fa-dollar-sign"></i>
+            
+
+            <div class="info">
+                <b> - 1'5M</b>
+            </div>
+        </div>
+    </div>
+    <div class="rounded shadow-lg container-sm">
+        <div class="top">
+            <div class="circle">
+                <b>
+                    Deliverys
+                </b>
+            </div>
+        </div>
+        <div class="data">
+            <i class="fa-solid fa-bicycle"></i>
+            
+
+            <div class="info">
+                <b> - 538</b>
+            </div>
+        </div>
+    </div>
+    <div class="rounded shadow-lg container-sm">
+        <div class="top">
+            <div class="circle">
+                <b>
+                    Tiendas
+                </b>
+            </div>
+        </div>
+        <div class="data">
+            <i class="fa-solid fa-shop"></i>
+            
+
+            <div class="info">
+                <b> - 18</b>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard">
+    <div class="container-sm shadow rounded bg-white">
+        <canvas id="chart1"></canvas>
+    </div>
+    <div class="container-sm shadow rounded bg-white">
+        <canvas id="chart2"></canvas>
+    </div>
+    <div class="container-sm shadow rounded bg-white">
+        <canvas id="chart3"></canvas>
+    </div>
+    <div class="container-sm shadow rounded bg-white">
+        <h2></h2>
+        <canvas id="chart4"></canvas>
+    </div>
+</div>
+{%endblock%}
+
+{% block import %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function createChartUser() {
+
+        var chartUser = document.getElementById("chart1");
+
+        new Chart(chartUser, {
+            type: 'bar',
+            data: {
+                labels: ['Gold', 'Premium', 'Básico', 'Sin plan'],
+                datasets: [{
+                    label: '# de usuarios por plan',
+                    data: [12, 19, 3, 5],
+                    borderWidth: 1,
+                    borderColor: ['#9c8d00', '#059c00', "#00929c", "#6e6e6e"],
+                    backgroundColor: ['#9c8c0091', '#059c0085', "#00929c7e", "#6e6e6e7c"],
+                    borderRadius: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: "Productos más vendidos",
+                        color: "black"
+                    }
+                },
+            }
+        });
+
+    }
+
+    createChartUser();
+
+
+    function createChartSalesMonth() {
+
+        var chartMontSales = document.getElementById("chart2");
+        new Chart(chartMontSales, {
+            type: 'line',
+            data: {
+                labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
+                datasets: [{
+                    label: 'Millones $',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1,
+                    borderColor: '#21cd9b'
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: "Ventas por mes",
+                        color: "black"
+                    }
+                },
+            }
+        });
+    }
+
+    createChartSalesMonth();
+
+    function createChartProduct() {
+
+        var productChart = document.getElementById("chart3");
+
+        new Chart(productChart, {
+            type: 'doughnut',
+            data: {
+                labels: ['Guineo', 'PLatano', 'Agua 5L', 'Aceite 3L'],
+                datasets: [{
+                    label: '# Unidades vendidas de',
+                    data: [12, 19, 3, 5],
+                    borderWidth: 1,
+                    backgroundColor: ['#9c8c0091', '#059c0085', "#00929c7e", "#6e6e6e7c"],
+                    borderRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: "Productos más vendidos",
+                        color: "black"
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    }
+
+    createChartProduct();
+
+
+    function createChartZone() {
+
+        var productChart = document.getElementById("chart4");
+
+        new Chart(productChart, {
+            type: 'polarArea',
+            data: {
+                labels: ['Bastidas', 'Libertador', 'Laureles', 'Rodadero'],
+                datasets: [{
+                    label: '# de ventas por barrio',
+                    data: [12, 19, 3, 5],
+                    borderWidth: 1,
+                    backgroundColor: ['#9c8c0091', '#059c0085', "#00929c7e", "#6e6e6e7c"],
+                    borderRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: "Barrios con más pedidos",
+                        color: "black"
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+    }
+
+    createChartZone();
+</script>
+
+{%endblock%}

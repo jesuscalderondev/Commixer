@@ -1,0 +1,165 @@
+.justify-center{
+    justify-content: center;
+}
+
+.align-center{
+    align-items: center;
+}
+
+.centered{
+    margin-top: calc(50%);  
+}
+
+main{
+    margin-top: 70px;
+}
+
+
+
+/* navbar */
+
+.navbar{
+    background-color: #21cd9b;
+}
+
+#search{
+    background-color: #c7ffef;
+    width: 180px;
+    border-radius: 30px;
+    border: none;
+    transition: all ease .4s;
+    padding: 0 15px;
+}
+
+#search:focus{
+    width: 250px;
+}
+
+
+#searchB{
+    background-color: #c7ffef;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -50px;
+    transition: all ease .4s;
+}
+
+.navbar-toggler, .btn-avatar{
+    border: none;
+    transition: all ease .2s;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-toggler:hover, .btn-avatar:hover{
+    color: #c7ffef;
+    fill: #c7ffef;
+}
+
+
+.inputSearch{
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+
+/* Dashboard */
+
+.dashboard > div{
+    height: 250px;
+    width: 350px;
+    transition: all ease .3s;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.cards > div{
+    width: 300px;
+    height: 150px;
+    background-color: #c7ffef;
+}
+
+.cards > div:hover > .top > .circle{
+    width: 100px;
+}
+
+.cards > div:hover > .top > .circle > b{
+    display: block;
+}
+
+
+.cards > div:hover > .data > .info{
+    color: rgb(32, 32, 32);
+}
+
+
+.data > .info{
+    color: #c7ffef;
+    transition: all ease .3s;
+}
+
+.top{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    padding: 10px 0;
+}
+
+.circle{
+    height: 25px;
+    width: 20px;
+    border-radius: 25px;
+    background-color: #21cd9b;
+    text-align: center;
+    transition: all ease .2s;
+}
+
+.circle > b{
+    display: none;
+}
+
+.circle:hover{
+    color: #21cd9b;
+    background-color: #c7ffef;
+}
+
+.data{
+    font-size: 40px;
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cards{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    padding: 60px;
+}
+
+
+.dashboard{
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    padding: 30px;
+}
+
+a{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
