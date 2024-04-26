@@ -87,6 +87,11 @@ main{
     width: 300px;
     height: 150px;
     background-color: #c7ffef;
+    transition: all ease .4s;
+}
+
+.cards > div:hover{
+    transform: scale(1.2);
 }
 
 .cards > div:hover > .top > .circle{

@@ -15,3 +15,9 @@ def login():
 #@requiredSession
 def dashboard():
     return render_template("dashboard.html")
+
+@admin.route("/addProduct", methods = ['GET', 'POST'])
+def addProduct():
+    if request.method == "POST":
+        data = request.get_json()
+    return render_template("addProduct.html")

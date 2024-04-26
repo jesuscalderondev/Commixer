@@ -30,7 +30,7 @@ def login():
         email = data['email']
         password = data['password']
 
-        user = session.query(Users).filter(Users.Email == email).first()
+        user = session.query(User).filter(User.Email == email).first()
         if passwordVerify(user.Password, password):
             payload = {
                 'username': user.Email,
@@ -48,7 +48,7 @@ def login():
 def init():
     print(os.environ['FULLNAME_TEST'], os.environ['DIRECTION_TEST'], os.environ['EMAIL_TEST'])
     try:
-        user1 = Users(
+        user1 = User(
             FullName = os.environ['FULLNAME_TEST'],
             Direction = os.environ['DIRECTION_TEST'],
             Email = os.environ['EMAIL_TEST'],
